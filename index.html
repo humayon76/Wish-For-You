@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🎉 A Secret Birthday Surprise</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Poppins',sans-serif;
+  background: radial-gradient(circle at top,#1d2671,#0f0c29);
+  color:#fff;
+  overflow:hidden;
+}
+.card{
+  width:90%;
+  max-width:420px;
+  padding:30px;
+  text-align:center;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.12);
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+  animation: pop 1s ease;
+}
+@keyframes pop{
+  from{opacity:0; transform:scale(.8)}
+  to{opacity:1; transform:scale(1)}
+}
+.step{display:none}
+input,button{
+  width:100%;
+  padding:14px;
+  margin:10px 0;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+}
+button{
+  background:linear-gradient(135deg,#ffcc70,#ff8177);
+  font-weight:600;
+  cursor:pointer;
+}
+button:hover{transform:scale(1.05)}
+.confetti{
+  position:fixed;
+  width:8px;
+  height:8px;
+  top:-10px;
+  animation: fall linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg)}
+}
+.type{
+  border-right:2px solid #fff;
+  white-space:nowrap;
+  overflow:hidden;
+  animation: typing 3s steps(40), blink .7s infinite;
+}
+@keyframes typing{from{width:0}to{width:100%}}
+@keyframes blink{50%{border-color:transparent}}
+img{
+  width:100%;
+  border-radius:15px;
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <div id="s1">
+    <h1>Hello 👋</h1>
+    <input id="name" placeholder="Your name">
+    <button onclick="goGender()">Continue</button>
+  </div>
+
+  <div id="s2" class="step">
+    <h2>Select gender</h2>
+    <button onclick="setGender('boy')">👦 Boy</button>
+    <button onclick="setGender('girl')">👧 Girl</button>
+  </div>
+
+  <div id="s3" class="step">
+    <h2>Solve to unlock 🧠</h2>
+    <p>105 × 4 = ?</p>
+    <input id="ans" placeholder="Answer">
+    <button onclick="solve()">Unlock 🎁</button>
+  </div>
+
+  <div id="s4" class="step">
+    <h2 id="bd"></h2>
+    <button onclick="final()">Reveal Surprise 🎉</button>
+  </div>
+
+  <div id="s5" class="step">
+    <h1 class="type" id="wish"></h1>
+    <img src="https://i.imgur.com/8Km9tLL.jpg" alt="Birthday">
+    <button onclick="share()">Share on WhatsApp 💚</button>
+  </div>
+
+</div>
+
+<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+<script>
+let uname="", gender="";
+
+function goGender(){
+  uname=name.value.trim();
+  if(!uname) return alert("Name likho 😅");
+  s1.style.display="none";
+  s2.style.display="block";
+}
+
+function setGender(g){
+  gender=g;
+  s2.style.display="none";
+  s3.style.display="block";
+}
+
+function solve(){
+  if(ans.value!=420) return alert("Wrong answer 😛");
+  let day=20, month=4;
+  const m=["","January","February","March","April","May","June","July","August","September","October","November","December"];
+  s3.style.display="none";
+  s4.style.display="block";
+  bd.innerText=`${uname}, your birthday is ${day} ${m[month]} 🎂`;
+}
+
+function final(){
+  s4.style.display="none";
+  s5.style.display="block";
+  music.play();
+  confetti();
+  wish.innerText =
+    gender==="girl"
+    ? `Happy Birthday ${uname} 💖✨ You are truly one of a kind`
+    : `Happy Birthday ${uname} 🖤🔥 Stay strong, stay legendary`;
+}
+
+function confetti(){
+  for(let i=0;i<120;i++){
+    let c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+    c.style.animationDuration=2+Math.random()*3+"s";
+    document.body.appendChild(c);
+  }
+}
+
+function share(){
+  let text = `🎉 I just got a birthday surprise! 🎂\n\nCheck this out:\n${location.href}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+}
+</script>
+
+</body>
+</html>
